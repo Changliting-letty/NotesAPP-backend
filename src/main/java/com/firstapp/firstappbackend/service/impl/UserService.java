@@ -64,8 +64,7 @@ public class UserService implements IUserService {
         }
         String username=user.getUserName();
         String password=user.getPassword();
-        String question=user.getQuestion();
-        String answer=user.getAnswer();
+
         //1.判空
         //用户名不能为空
         if (StringUtils.isBlank(username)){
@@ -74,13 +73,6 @@ public class UserService implements IUserService {
         //密码不能为空
         if (StringUtils.isBlank(password)){
             return  ServerResponse.createServerResponseByFail(ResponseCode.PASSWORD_NOT_EMPTY.getCode(),ResponseCode.PASSWORD_NOT_EMPTY.getMsg());
-        }
-        //密保问题和答案不能为空
-        if (StringUtils.isBlank(question)){
-            return  ServerResponse.createServerResponseByFail(ResponseCode.QUESTION_NOT_EMPTY.getCode(),ResponseCode.QUESTION_NOT_EMPTY.getMsg());
-        }
-        if (StringUtils.isBlank(answer)){
-            return  ServerResponse.createServerResponseByFail(ResponseCode.ANSWER_NOT_EMPTY.getCode(),ResponseCode.ANSWER_NOT_EMPTY.getMsg());
         }
 
         //2.判断用户名是否存在
