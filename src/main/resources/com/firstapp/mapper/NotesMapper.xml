@@ -17,6 +17,10 @@
     <result column="web_link" jdbcType="VARCHAR" property="webLink" />
     <result column="color" jdbcType="VARCHAR" property="color" />
   </resultMap>
+  <parameterMap id="userId_And_Title"  type="java.util.Map">
+        <parameter property="userId" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        <parameter property="title"  javaType="java.lang.String"  jdbcType="VARCHAR"/>
+  </parameterMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
       WARNING - @mbg.generated
@@ -25,8 +29,8 @@
     delete from Notes
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByTitleAndUserId"  parameterType="com.firstapp.firstappbackend.pojo.Notes">
-    delete from  Notes WHERE title=#{title,jdbcType=VARCHAR} and  user_id=#{user_id,jdbcType=INTEGER}
+  <delete id="deleteByTitleAndUserId"  parameterMap="userId_And_Title">
+    delete from  Notes WHERE title=#{title,jdbcType=VARCHAR} and  user_id=#{userId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.firstapp.firstappbackend.pojo.Notes">
     <!--
@@ -61,16 +65,13 @@
   </update>
   <update id="updateByUserIdAndTitle"  parameterType="com.firstapp.firstappbackend.pojo.Notes">
     update Notes
-    set user_id = #{userId,jdbcType=INTEGER},
-        title = #{title,jdbcType=VARCHAR},
-        sub_title = #{subTitle,jdbcType=VARCHAR},
+    set sub_title = #{subTitle,jdbcType=VARCHAR},
         note_text = #{noteText,jdbcType=VARCHAR},
-        create_time = #{createTime,jdbcType=TIMESTAMP},
         date_time = now(),
         img_path = #{imgPath,jdbcType=VARCHAR},
         web_link = #{webLink,jdbcType=VARCHAR},
         color = #{color,jdbcType=VARCHAR}
-    where user_id = #{user_id,jdbcType=INTEGER} and title=#{title,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER} and title=#{title,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--

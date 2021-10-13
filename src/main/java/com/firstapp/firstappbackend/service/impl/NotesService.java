@@ -42,9 +42,8 @@ public class NotesService implements INotesService {
     }
 
     @Override
-    public ServerResponse deleteLogic(Notes notes,Integer userId) {
-        notes.setUserId(userId);
-         Integer count=notesMapper.deleteByTitleAndUserId(notes);
+    public ServerResponse deleteLogic(String title,Integer userId) {
+         Integer count=notesMapper.deleteByTitleAndUserId(title,userId);
          if (count==0){
              return  ServerResponse.createServerResponseByFail(ResponseCode.DELETENOTE_FAIL.getCode(),ResponseCode.DELETENOTE_FAIL.getMsg());
          }

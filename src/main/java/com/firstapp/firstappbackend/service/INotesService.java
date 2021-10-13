@@ -12,5 +12,5 @@ public interface INotesService {
    //
     public ServerResponse  createLogic(Notes notes,Integer userId);
     public  ServerResponse  updateLogic(Notes notes,Integer userId);
-    public  ServerResponse  deleteLogic(Notes notes,Integer userId);
+    public  ServerResponse  deleteLogic(String title,Integer userId);
 }

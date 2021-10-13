@@ -38,10 +38,10 @@ public class NotesController {
     }
 
     @RequestMapping(value = "deleteNote.do")
-    public ServerResponse deleteNote(Notes notes,HttpServletRequest request){
+    public ServerResponse deleteNote(String title,HttpServletRequest request){
 
         UserVO uservo=(UserVO)request.getSession().getAttribute(Const.CURRENT_USER);
-        ServerResponse serverResponse=notesService.deleteLogic(notes,uservo.getId());
+        ServerResponse serverResponse=notesService.deleteLogic(title,uservo.getId());
         return  serverResponse;
     }
 
