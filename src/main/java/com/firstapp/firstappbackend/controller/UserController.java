@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 
 @RestController
 //使其称为一个控制器的类
@@ -19,13 +21,14 @@ public class UserController {
      IUserService userService;
 
       @RequestMapping(value = "/portal/user/login.do")
-      public ServerResponse login(String username,String password,HttpSession session){
+      public ServerResponse login(String username, String password, HttpServletRequest request){
           //从库里查
           ServerResponse serverResponse=  userService.loginLogic(username,password);
           //登录成功放到Session
           if (serverResponse.isSuccess()){
-              session.setAttribute(Const.CURRENT_USER,serverResponse.getData());
+              request.getSession().setAttribute(Const.CURRENT_USER,serverResponse.getData());
               //其他模块可借此判断用户是否登录
+
           }
           return  serverResponse;
       }

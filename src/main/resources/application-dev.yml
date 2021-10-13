@@ -1,5 +1,8 @@
 
 spring:
+  servlet:
+    session:
+      timeout: 3600s
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:

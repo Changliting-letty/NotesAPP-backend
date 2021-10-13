@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 public class ServerResponse <T>{
 
     private  int status;  //0表成功，1表失败
-    private  T data;  //status为0时，将返回的书记封装到data
+    private  T data;  //status为0时，将返回的数据封装到data
     private  String msg;  //提示信息
 
 

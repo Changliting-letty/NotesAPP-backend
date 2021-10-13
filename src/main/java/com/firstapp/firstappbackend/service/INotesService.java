@@ -10,7 +10,7 @@ public interface INotesService {
      * 登录
      * */
    //
-    public ServerResponse  createLoginc(Notes notes);
-    public  ServerResponse  updayeLogic(noted);
-    public  ServerResponse  deleteLogic(Notes notes);
+    public ServerResponse  createLogic(Notes notes,Integer userId);
+    public  ServerResponse  updateLogic(Notes notes,Integer userId);
+    public  ServerResponse  deleteLogic(Notes notes,Integer userId);
 }

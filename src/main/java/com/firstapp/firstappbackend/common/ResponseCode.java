@@ -10,7 +10,11 @@ public enum ResponseCode {
     PARAMTER_NOT_EMPTY(5,"参数不能为空"),
     USERNAME_EXITS(6,"用户名存在"),
     SIGNUP_FAIL(7,"注册失败"),
-    Need_LOGIN(8,"用户需要登录")
+    NEED_LOGIN(8,"用户需要登录"),
+    NOTE_NOT_EMPTY(9,"Note不能为空"),
+    CREATENOTE_FALI(10,"Note新建失败"),
+    UPDATENOTE_FAIL(11,"Note修改失败"),
+    DELETENOTE_FAIL(12,"Notes删除失败")
     ;
     private  int code;
     private  String msg;

@@ -25,6 +25,9 @@
     delete from Notes
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteByTitleAndUserId"  parameterType="com.firstapp.firstappbackend.pojo.Notes">
+    delete from  Notes WHERE title=#{title,jdbcType=VARCHAR} and  user_id=#{user_id,jdbcType=INTEGER}
+  </delete>
   <insert id="insert" parameterType="com.firstapp.firstappbackend.pojo.Notes">
     <!--
       WARNING - @mbg.generated
@@ -35,8 +38,8 @@
       date_time, img_path, web_link, 
       color)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
-      #{subTitle,jdbcType=VARCHAR}, #{noteText,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{dateTime,jdbcType=TIMESTAMP}, #{imgPath,jdbcType=VARCHAR}, #{webLink,jdbcType=VARCHAR}, 
+      #{subTitle,jdbcType=VARCHAR}, #{noteText,jdbcType=VARCHAR}, now(),
+      now(), #{imgPath,jdbcType=VARCHAR}, #{webLink,jdbcType=VARCHAR},
       #{color,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.firstapp.firstappbackend.pojo.Notes">
@@ -50,11 +53,24 @@
       sub_title = #{subTitle,jdbcType=VARCHAR},
       note_text = #{noteText,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      date_time = #{dateTime,jdbcType=TIMESTAMP},
+      date_time = now(),
       img_path = #{imgPath,jdbcType=VARCHAR},
       web_link = #{webLink,jdbcType=VARCHAR},
       color = #{color,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByUserIdAndTitle"  parameterType="com.firstapp.firstappbackend.pojo.Notes">
+    update Notes
+    set user_id = #{userId,jdbcType=INTEGER},
+        title = #{title,jdbcType=VARCHAR},
+        sub_title = #{subTitle,jdbcType=VARCHAR},
+        note_text = #{noteText,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        date_time = now(),
+        img_path = #{imgPath,jdbcType=VARCHAR},
+        web_link = #{webLink,jdbcType=VARCHAR},
+        color = #{color,jdbcType=VARCHAR}
+    where user_id = #{user_id,jdbcType=INTEGER} and title=#{title,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--
@@ -75,4 +91,7 @@
     web_link, color
     from Notes
   </select>
+
+
+
 </mapper>
