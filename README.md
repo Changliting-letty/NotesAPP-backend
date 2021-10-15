@@ -11,6 +11,6 @@ NotesApp的后端,实现客户端和后端交互。涉及SpringBoot、Mybatis、
 2. Notes模块
 - add Notes
 - update Notes 
-- delete Note
+- delete Note<br>
 **接口概览：**
 ![image](https://user-images.githubusercontent.com/57993597/137424373-24ffb4dd-79c4-43a6-8cde-88ef07322202.png)
