@@ -4,10 +4,11 @@ NotesApp的后端,实现客户端和后端交互。涉及SpringBoot、Mybatis、
 ### Function
 **主要功能**
 1. 用户模块
-- 用户注册 
+- 用户注册<br>
 参数非空校验、用户是否存在校验、密码加密存储
 - 用户登录
-- 用户session会话管理
+- 用户session会话管理<br>
+拦截器判断是否登录
 2. Notes模块
 - add Notes
 - update Notes 
