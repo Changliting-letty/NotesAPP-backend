@@ -23,4 +23,13 @@ mybatis:
   mapper-locations: classpath*:com/firstapp/mapper/*Mapper.xml
   config-location: classpath:mybatis-config.xml
 
+#server:
+#  port: 7443
+#  ssl:
+#    key-store: classpath:test.p12
+#    key-store-password: 980422
+#    keyStoreType: PKCS12
+#    key-alias: test
+
+
 

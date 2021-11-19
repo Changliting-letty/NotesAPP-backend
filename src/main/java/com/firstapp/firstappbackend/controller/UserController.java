@@ -18,24 +18,30 @@ import javax.servlet.http.HttpSession;
 public class UserController {
 
     @Autowired
-     IUserService userService;
+    IUserService userService;
 
-      @RequestMapping(value = "/portal/user/login.do")
-      public ServerResponse login(String username, String password, HttpServletRequest request){
-          //从库里查
-          ServerResponse serverResponse=  userService.loginLogic(username,password);
-          //登录成功放到Session
-          if (serverResponse.isSuccess()){
-              request.getSession().setAttribute(Const.CURRENT_USER,serverResponse.getData());
-              //其他模块可借此判断用户是否登录
+    @RequestMapping(value = "/portal/user/login.do")
+    public ServerResponse login(String username, String password, HttpServletRequest request) {
+        //从库里查
+        ServerResponse serverResponse = userService.loginLogic(username, password);
+        //登录成功放到Session
+        if (serverResponse.isSuccess()) {
+            request.getSession().setAttribute(Const.CURRENT_USER, serverResponse.getData());
+            //其他模块可借此判断用户是否登录
+        }
+        return serverResponse;
+    }
 
-          }
-          return  serverResponse;
-      }
-      @RequestMapping(value = "/portal/user/signup.do")
-      public  ServerResponse signup(User user){
-       ServerResponse serverResponse=userService.signupLogic(user);
-       return  serverResponse;
-      }
+    @RequestMapping(value = "/portal/user/signup.do")
+    public ServerResponse signup(User user) {
+        ServerResponse serverResponse = userService.signupLogic(user);
+        return serverResponse;
+    }
+
+    @RequestMapping(value = "/portal/user/logout.do")
+    public ServerResponse logout(HttpServletRequest request) {
+        ServerResponse serverResponse = userService.logoutLogin(request.getSession());
+        return serverResponse;
+    }
 
 }

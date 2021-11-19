@@ -20,17 +20,19 @@ import java.io.PrintWriter;
 public class PortalLoginCheckInterceptor implements HandlerInterceptor {
 
 
-    /**在请求到达controller之前
-     @return  true:不拦截请求 false:拦截请求
+    /**
+     * 在请求到达controller之前
+     *
+     * @return true:不拦截请求 false:拦截请求
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
         System.out.println("=======preHandle======");
 
-        HttpSession session= request.getSession();
-        UserVO userVO=(UserVO)session.getAttribute(Const.CURRENT_USER);
-        if(userVO!=null){
+        HttpSession session = request.getSession();
+        UserVO userVO = (UserVO) session.getAttribute(Const.CURRENT_USER);
+        if (userVO != null) {
             //已经登录
             return true;
         }
@@ -39,11 +41,11 @@ public class PortalLoginCheckInterceptor implements HandlerInterceptor {
         //向前端返回response提示未登录，通过输出流
         try {
             response.reset();
-            response.addHeader("Content-Type","application/json;charset=utf-8");
-            PrintWriter printWriter=response.getWriter();
-            ServerResponse serverResponse=ServerResponse.createServerResponseByFail(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getMsg());
-            ObjectMapper objectMapper=new ObjectMapper();
-            String info=objectMapper.writeValueAsString(serverResponse);
+            response.addHeader("Content-Type", "application/json;charset=utf-8");
+            PrintWriter printWriter = response.getWriter();
+            ServerResponse serverResponse = ServerResponse.createServerResponseByFail(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getMsg());
+            ObjectMapper objectMapper = new ObjectMapper();
+            String info = objectMapper.writeValueAsString(serverResponse);
             printWriter.write(info);
             printWriter.flush();
             printWriter.close();

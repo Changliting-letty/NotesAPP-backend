@@ -52,11 +52,10 @@ public interface UserMapper {
      */
     Integer fingByUsername(@Param("username") String username);
 
-    User  findByUsernameAndPassword(@Param("username") String username,@Param("password") String password);
+    User findByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
 
     /**
-    * 为实现注册业务逻辑
+     * 为实现注册业务逻辑
      *
-    * */
-    //判断
+     * */
 }
