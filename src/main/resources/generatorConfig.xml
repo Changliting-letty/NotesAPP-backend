@@ -37,6 +37,8 @@
                 enableSelectByExample="false" enableUpdateByExample="false"/>
         <table  tableName="Notes" domainObjectName="Notes" enableCountByExample="false" enableDeleteByExample="false"
                 enableSelectByExample="false" enableUpdateByExample="false"/>
+        <table  tableName="Change" domainObjectName="Change" enableCountByExample="false" enableDeleteByExample="false"
+                enableSelectByExample="false" enableUpdateByExample="false"/>
 
     </context>
 </generatorConfiguration>

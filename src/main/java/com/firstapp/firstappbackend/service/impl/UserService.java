@@ -1,5 +1,6 @@
 package com.firstapp.firstappbackend.service.impl;
 
+import com.firstapp.firstappbackend.common.Const;
 import com.firstapp.firstappbackend.common.ResponseCode;
 import com.firstapp.firstappbackend.dao.UserMapper;
 import com.firstapp.firstappbackend.pojo.User;
@@ -12,17 +13,19 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * 完成登录的业务逻辑
- * */
+ */
 @Service
 public class UserService implements IUserService {
     @Autowired
     UserMapper userMapper;
+
     @Override
     public ServerResponse loginLogic(String username, String password) {
-
-            //写业务逻辑
+        //写业务逻辑
         /**
          * 1.用户名和密码的非空判断
          * 2.查看用户是否存在
@@ -30,66 +33,76 @@ public class UserService implements IUserService {
          * 4.返回结果
          * */
         //1.判空
-        if (StringUtils.isBlank(username)){
-            return  ServerResponse.createServerResponseByFail(ResponseCode.USERNAME_NOT_EMPTY.getCode(),ResponseCode.USERNAME_NOT_EMPTY.getMsg());
+        if (StringUtils.isBlank(username)) {
+            return ServerResponse.createServerResponseByFail(ResponseCode.USERNAME_NOT_EMPTY.getCode(), ResponseCode.USERNAME_NOT_EMPTY.getMsg());
         }
-        if (StringUtils.isBlank(password)){
-            return  ServerResponse.createServerResponseByFail(ResponseCode.PASSWORD_NOT_EMPTY.getCode(),ResponseCode.PASSWORD_NOT_EMPTY.getMsg());
+        if (StringUtils.isBlank(password)) {
+            return ServerResponse.createServerResponseByFail(ResponseCode.PASSWORD_NOT_EMPTY.getCode(), ResponseCode.PASSWORD_NOT_EMPTY.getMsg());
         }
         //2.判用户名是否存在
-        Integer count=userMapper.fingByUsername(username);
-        if (count==0){
-            return  ServerResponse.createServerResponseByFail(ResponseCode.USERNAME_NOT_EXISTS.getCode(),ResponseCode.USERNAME_NOT_EXISTS.getMsg());
+        Integer count = userMapper.fingByUsername(username);
+        if (count == 0) {
+            return ServerResponse.createServerResponseByFail(ResponseCode.USERNAME_NOT_EXISTS.getCode(), ResponseCode.USERNAME_NOT_EXISTS.getMsg());
         }
         //用户名和密码去查询
-        User user=userMapper.findByUsernameAndPassword(username,MD5Utils.getMD5Code(password));
-        if (user==null){
-            return ServerResponse.createServerResponseByFail(ResponseCode.PASSWORD_NOT_Right.getCode(),ResponseCode.PASSWORD_NOT_Right.getMsg());
+        User user = userMapper.findByUsernameAndPassword(username, MD5Utils.getMD5Code(password));
+        if (user == null) {
+            return ServerResponse.createServerResponseByFail(ResponseCode.PASSWORD_NOT_Right.getCode(), ResponseCode.PASSWORD_NOT_Right.getMsg());
         }
         // 返回结果  返回userVo
-        return  ServerResponse.createServerResponseBySuccess(convert(user));
+        return ServerResponse.createServerResponseBySuccess(ResponseCode.IS_LOGIN_SUCCESS.getCode(), convert(user), ResponseCode.IS_LOGIN_SUCCESS.getMsg());
     }
-    private UserVO convert(User user){
-        UserVO userVO=new UserVO();
-        userVO.setId(user.getId());
+
+    private UserVO convert(User user) {
+        UserVO userVO = new UserVO();
+        userVO.setUserId(user.getId());
         userVO.setUserName(user.getUserName());
-        userVO.setCreateTime(DateUtil.dataToString( user.getCreateTime()));
+        userVO.setCreateTime(DateUtil.dataToString(user.getCreateTime()));
         userVO.setUpdateTime(DateUtil.dataToString(user.getUpdateTime()));
-        return  userVO;
+        return userVO;
     }
+
     @Override
     public ServerResponse signupLogic(User user) {
-        if (user==null){
-         return  ServerResponse.createServerResponseByFail(ResponseCode.PARAMTER_NOT_EMPTY.getCode(),ResponseCode.PASSWORD_NOT_Right.getMsg());
+        if (user == null) {
+            return ServerResponse.createServerResponseByFail(ResponseCode.PARAMTER_NOT_EMPTY.getCode(), ResponseCode.PASSWORD_NOT_Right.getMsg());
         }
-        String username=user.getUserName();
-        String password=user.getPassword();
+        String username = user.getUserName();
+        String password = user.getPassword();
 
         //1.判空
         //用户名不能为空
-        if (StringUtils.isBlank(username)){
-            return  ServerResponse.createServerResponseByFail(ResponseCode.USERNAME_NOT_EMPTY.getCode(),ResponseCode.USERNAME_NOT_EMPTY.getMsg());
+        if (StringUtils.isBlank(username)) {
+            return ServerResponse.createServerResponseByFail(ResponseCode.USERNAME_NOT_EMPTY.getCode(), ResponseCode.USERNAME_NOT_EMPTY.getMsg());
         }
         //密码不能为空
-        if (StringUtils.isBlank(password)){
-            return  ServerResponse.createServerResponseByFail(ResponseCode.PASSWORD_NOT_EMPTY.getCode(),ResponseCode.PASSWORD_NOT_EMPTY.getMsg());
+        if (StringUtils.isBlank(password)) {
+            return ServerResponse.createServerResponseByFail(ResponseCode.PASSWORD_NOT_EMPTY.getCode(), ResponseCode.PASSWORD_NOT_EMPTY.getMsg());
         }
 
         //2.判断用户名是否存在
-        Integer count=userMapper.fingByUsername(username);
-        if (count>0){
-            return  ServerResponse.createServerResponseByFail(ResponseCode.USERNAME_EXITS.getCode(),ResponseCode.USERNAME_EXITS.getMsg());
+        Integer count = userMapper.fingByUsername(username);
+        if (count > 0) {
+            return ServerResponse.createServerResponseByFail(ResponseCode.USERNAME_EXITS.getCode(), ResponseCode.USERNAME_EXITS.getMsg());
         }
         //3.执行注册
-            //密码加密
+        //密码加密
         user.setPassword(MD5Utils.getMD5Code(user.getPassword()));
-            //注册
-       Integer result= userMapper.insert(user);
-       if (result==0){
-                //注册失败
-           return  ServerResponse.createServerResponseByFail(ResponseCode.SIGNUP_FAIL.getCode(),ResponseCode.SIGNUP_FAIL.getMsg());
-       }
-            //注册成功
-            return  ServerResponse.createServerResponseBySuccess();
+        //注册
+        Integer result = userMapper.insert(user);
+        if (result == 0) {
+            //注册失败
+            return ServerResponse.createServerResponseByFail(ResponseCode.SIGNUP_FAIL.getCode(), ResponseCode.SIGNUP_FAIL.getMsg());
+        }
+        //注册成功
+        return ServerResponse.createServerResponseBySuccess(ResponseCode.IS_SIGNUP_SUCCESS.getCode(), convert(user), ResponseCode.IS_SIGNUP_SUCCESS.getMsg());
+    }
+
+    @Override
+    public ServerResponse logoutLogin(HttpSession session) {
+        ServerResponse sr = null;
+        session.removeAttribute(Const.CURRENT_USER);
+        sr = ServerResponse.createServerResponseBySuccess(ResponseCode.IS_LOGOUT_SUCCESS.getCode(), ResponseCode.IS_LOGOUT_SUCCESS.getMsg());
+        return sr;
     }
 }

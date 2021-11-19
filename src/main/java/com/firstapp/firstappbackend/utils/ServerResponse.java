@@ -4,21 +4,21 @@ package com.firstapp.firstappbackend.utils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.firstapp.firstappbackend.common.ResponseCode;
 
 /**
- *封装前端返回到饿统一实体类
+ * 封装前端返回到饿统一实体类
  */
 
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL) //只返回非空字段
-public class ServerResponse <T>{
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL) //只返回非空字段
+public class ServerResponse<T> {
 
-    private  int status;  //0表成功，1表失败
-    private  T data;  //status为0时，将返回的数据封装到data
-    private  String msg;  //提示信息
-
+    private int status;  //0表成功，1表失败
+    private T data;  //status为0时，将返回的数据封装到data
+    private String msg;  //提示信息
+    private int userId;
 
     //封装
-
     private ServerResponse() {
     }
 
@@ -36,25 +36,35 @@ public class ServerResponse <T>{
         this.data = data;
         this.msg = msg;
     }
+
     @JsonIgnore
-    public   boolean isSuccess(){
-        return   this.status==0;
-    }
-    public  static ServerResponse createServerResponseBySuccess(){
-        return  new ServerResponse(0);
-    }
-    public  static <T> ServerResponse createServerResponseBySuccess(T data){
-        return  new ServerResponse(0,data);
+    public boolean isSuccess() {
+        return this.status == 0;
     }
 
-    public  static <T> ServerResponse createServerResponseBySuccess(T data,String msg){
-        return  new ServerResponse(0,data,msg);
+    public static ServerResponse createServerResponseBySuccess() {
+        return new ServerResponse(0);
     }
-    public  static ServerResponse createServerResponseByFail(int status){
-        return  new ServerResponse(status);
+
+    public static ServerResponse createServerResponseBySuccess(int status, String msg) {
+        return new ServerResponse(status, null, msg);
     }
-    public  static ServerResponse createServerResponseByFail(int status,String msg){
-        return  new ServerResponse(status,null,msg);
+
+    public static <T> ServerResponse createServerResponseBySuccess(T data) {
+        return new ServerResponse(0, data);
+    }
+
+
+    public static <T> ServerResponse createServerResponseBySuccess(int code, T data, String msg) {
+        return new ServerResponse(code, data, msg);
+    }
+
+    public static ServerResponse createServerResponseByFail(int status) {
+        return new ServerResponse(status);
+    }
+
+    public static ServerResponse createServerResponseByFail(int status, String msg) {
+        return new ServerResponse(status, null, msg);
     }
 
 
