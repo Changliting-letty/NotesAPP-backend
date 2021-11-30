@@ -1,11 +1,16 @@
 package com.firstapp.firstappbackend.service;
 
+import com.firstapp.firstappbackend.common.Const;
 import com.firstapp.firstappbackend.pojo.Notes;
 import com.firstapp.firstappbackend.pojo.User;
 import com.firstapp.firstappbackend.utils.ServerResponse;
 import com.firstapp.firstappbackend.vo.NotesVO;
+import com.firstapp.firstappbackend.vo.ResponseVO;
+import com.firstapp.firstappbackend.vo.UserVO;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 public interface INotesService {
 
@@ -19,5 +24,7 @@ public interface INotesService {
 
     public ServerResponse deleteLogic(Integer onlineId, Integer userId);
 
-    public ServerResponse getNotesList(String userName);
+    public ServerResponse getNotesList(Integer userId);
+
+    public  ServerResponse handleSyn(Integer userId, String lastSynTime, List<ResponseVO> list);
 }
