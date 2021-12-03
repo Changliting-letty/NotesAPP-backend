@@ -1,15 +1,27 @@
 package com.firstapp.firstappbackend.controller;
 
 import com.firstapp.firstappbackend.common.Const;
+<<<<<<< HEAD
 import com.firstapp.firstappbackend.pojo.Notes;
 import com.firstapp.firstappbackend.service.impl.NotesService;
 import com.firstapp.firstappbackend.utils.ServerResponse;
 import com.firstapp.firstappbackend.vo.NotesVO;
+=======
+import com.firstapp.firstappbackend.service.impl.NotesService;
+import com.firstapp.firstappbackend.utils.ServerResponse;
+import com.firstapp.firstappbackend.vo.NotesVO;
+import com.firstapp.firstappbackend.vo.ResponseVO;
+>>>>>>> main-2.0
 import com.firstapp.firstappbackend.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+<<<<<<< HEAD
+=======
+import java.util.ArrayList;
+import java.util.List;
+>>>>>>> main-2.0
 
 
 @RestController
@@ -42,12 +54,31 @@ public class NotesController {
         ServerResponse serverResponse = notesService.deleteLogic(onlineId, uservo.getUserId());
         return serverResponse;
     }
+<<<<<<< HEAD
 
     @RequestMapping(value = "searchAllNotes.do")
     public ServerResponse searchAllNotes(HttpServletRequest request) {
         UserVO userVO = (UserVO) request.getSession().getAttribute(Const.CURRENT_USER);
         ServerResponse serverResponse = notesService.getNotesList(userVO.getUserName());
+=======
+
+    @RequestMapping(value = "searchAllNotes.do")
+    public ServerResponse searchAllNotes(HttpServletRequest request) {
+        UserVO userVO = (UserVO) request.getSession().getAttribute(Const.CURRENT_USER);
+        ServerResponse serverResponse = notesService.getNotesList(userVO.getUserId());
         return serverResponse;
     }
+
+    @RequestMapping(value = "syn.do", method = RequestMethod.POST)
+    public ServerResponse controllerCenter(@RequestParam(value = "lastSynTime") String lastSynTime, @RequestBody List<ResponseVO> list, HttpServletRequest request) {
+        UserVO uservo = (UserVO) request.getSession().getAttribute(Const.CURRENT_USER);
+        ServerResponse serverResponse = notesService.handleSyn(uservo.getUserId(), lastSynTime, list);
+>>>>>>> main-2.0
+        return serverResponse;
+    }
+//    public ServerResponse   pull(String lastasyntime,HttpServletRequest request){
+//        UserVO uservo = (UserVO) request.getSession().getAttribute(Const.CURRENT_USER);
+//
+//    }
 
 }

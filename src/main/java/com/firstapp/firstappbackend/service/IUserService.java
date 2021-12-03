@@ -15,6 +15,10 @@ public interface IUserService {
 
     public ServerResponse signupLogic(User user);
 
+<<<<<<< HEAD
     public ServerResponse logoutLogin(HttpSession session);
+=======
+    public ServerResponse logoutLogin(HttpSession session, Integer userId);
+>>>>>>> main-2.0
 
 }

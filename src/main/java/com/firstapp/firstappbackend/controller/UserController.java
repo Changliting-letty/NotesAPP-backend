@@ -4,6 +4,7 @@ import com.firstapp.firstappbackend.common.Const;
 import com.firstapp.firstappbackend.pojo.User;
 import com.firstapp.firstappbackend.service.IUserService;
 import com.firstapp.firstappbackend.utils.ServerResponse;
+import com.firstapp.firstappbackend.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -40,7 +41,12 @@ public class UserController {
 
     @RequestMapping(value = "/portal/user/logout.do")
     public ServerResponse logout(HttpServletRequest request) {
+<<<<<<< HEAD
         ServerResponse serverResponse = userService.logoutLogin(request.getSession());
+=======
+        UserVO uservo = (UserVO) request.getSession().getAttribute(Const.CURRENT_USER);
+        ServerResponse serverResponse = userService.logoutLogin(request.getSession(),uservo.getUserId());
+>>>>>>> main-2.0
         return serverResponse;
     }
 
