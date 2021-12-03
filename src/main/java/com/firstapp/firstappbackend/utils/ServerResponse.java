@@ -24,25 +24,30 @@ public class ServerResponse<T> {
     private ServerResponse() {
     }
 
-    private ServerResponse(int status,int userId) {
-         this.status = status;
-         timeNow=DateUtil.dataToString(new Date());
-         this.userId=userId;
+    private ServerResponse(int status, int userId) {
+        this.status = status;
+        timeNow = DateUtil.dataToString(new Date());
+        this.userId = userId;
     }
 
-    private ServerResponse(int status, T data,int userId) {
+    private ServerResponse(int status) {
+        this.status = status;
+        timeNow = DateUtil.dataToString(new Date());
+    }
+
+    private ServerResponse(int status, T data, int userId) {
         this.status = status;
         this.data = data;
-        this.userId=userId;
-        timeNow=DateUtil.dataToString(new Date());
+        this.userId = userId;
+        timeNow = DateUtil.dataToString(new Date());
     }
 
-    private ServerResponse(int status, T data, String msg,int userId) {
+    private ServerResponse(int status, T data, String msg, int userId) {
         this.status = status;
         this.data = data;
         this.msg = msg;
-        this.userId=userId;
-        timeNow=DateUtil.dataToString(new Date());
+        this.userId = userId;
+        timeNow = DateUtil.dataToString(new Date());
     }
 
     @JsonIgnore
@@ -50,29 +55,29 @@ public class ServerResponse<T> {
         return this.status == 0;
     }
 
-    public static ServerResponse createServerResponseBySuccess(int userId) {
-        return new ServerResponse(0,userId);
+    public static ServerResponse createServerResponseBySuccess() {
+        return new ServerResponse(0);
     }
 
-    public static ServerResponse createServerResponseBySuccess(int status, String msg,int userId) {
-        return new ServerResponse(status, null, msg,userId);
+    public static ServerResponse createServerResponseBySuccess(int status, String msg, int userId) {
+        return new ServerResponse(status, null, msg, userId);
     }
 
-    public static <T> ServerResponse createServerResponseBySuccess(T data,int userId) {
-        return new ServerResponse(0, data,userId);
+    public static <T> ServerResponse createServerResponseBySuccess(T data, int userId) {
+        return new ServerResponse(0, data, userId);
     }
 
 
-    public static <T> ServerResponse createServerResponseBySuccess(int code, T data, String msg,int userId) {
-        return new ServerResponse(code, data, msg,userId);
+    public static <T> ServerResponse createServerResponseBySuccess(int code, T data, String msg, int userId) {
+        return new ServerResponse(code, data, msg, userId);
     }
 
-    public static ServerResponse createServerResponseByFail(int status,int userId) {
-        return new ServerResponse(status,userId);
+    public static ServerResponse createServerResponseByFail(int status, int userId) {
+        return new ServerResponse(status, userId);
     }
 
-    public static ServerResponse createServerResponseByFail(int status, String msg,int userId) {
-        return new ServerResponse(status, null, msg,userId);
+    public static ServerResponse createServerResponseByFail(int status, String msg, int userId) {
+        return new ServerResponse(status, null, msg, userId);
     }
 
 

@@ -2,13 +2,13 @@ package com.firstapp.firstappbackend.vo;
 
 import com.firstapp.firstappbackend.pojo.Notes;
 
-public class ResponseVO<T>{
-    private   int online_id;
+public class ResponseVO<T> {
+    private int online_id;
     private int offline_id;
-    private   String operation;
-    private   NotesVO data;
-    private  String update_time;
-    private  String desc;
+    private String operation;
+    private NotesVO data;
+    private String update_time;
+    private String desc;
 
 
     public int getOnline_id() {

@@ -95,7 +95,7 @@
         select id, user_id, title, sub_title, note_text, create_time, date_time, img_path,
         web_link, color
         from notes
-        where  user_id=#{userId}
+        where user_id=#{userId}
     </select>
 
 

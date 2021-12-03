@@ -38,33 +38,33 @@ public class UserService implements IUserService {
          * */
         //1.判空
         if (StringUtils.isBlank(username)) {
-            return ServerResponse.createServerResponseByFail(ResponseCode.USERNAME_NOT_EMPTY.getCode(), ResponseCode.USERNAME_NOT_EMPTY.getMsg(),-1);
+            return ServerResponse.createServerResponseByFail(ResponseCode.USERNAME_NOT_EMPTY.getCode(), ResponseCode.USERNAME_NOT_EMPTY.getMsg(), -1);
         }
         if (StringUtils.isBlank(password)) {
-            return ServerResponse.createServerResponseByFail(ResponseCode.PASSWORD_NOT_EMPTY.getCode(), ResponseCode.PASSWORD_NOT_EMPTY.getMsg(),-1);
+            return ServerResponse.createServerResponseByFail(ResponseCode.PASSWORD_NOT_EMPTY.getCode(), ResponseCode.PASSWORD_NOT_EMPTY.getMsg(), -1);
         }
         //2.判用户名是否存在
         Integer count = userMapper.fingByUsername(username);
         if (count == 0) {
-            return ServerResponse.createServerResponseByFail(ResponseCode.USERNAME_NOT_EXISTS.getCode(), ResponseCode.USERNAME_NOT_EXISTS.getMsg(),-1);
+            return ServerResponse.createServerResponseByFail(ResponseCode.USERNAME_NOT_EXISTS.getCode(), ResponseCode.USERNAME_NOT_EXISTS.getMsg(), -1);
         }
         //用户名和密码去查询
         User user = userMapper.findByUsernameAndPassword(username, MD5Utils.getMD5Code(password));
         if (user == null) {
-            return ServerResponse.createServerResponseByFail(ResponseCode.PASSWORD_NOT_Right.getCode(), ResponseCode.PASSWORD_NOT_Right.getMsg(),-1);
+            return ServerResponse.createServerResponseByFail(ResponseCode.PASSWORD_NOT_Right.getCode(), ResponseCode.PASSWORD_NOT_Right.getMsg(), -1);
         }
         // 返回结果  返回userVo
         //初始化table_version记录
-        int userId=user.getId();
-        int user_tv_count=tableVersionMapper.selectByUserId(userId);
-        if (user_tv_count==0){
-            TableVersion tableVersion=new TableVersion();
-            tableVersion.setTableName("notes");
-            tableVersion.setUserId(userId);
-            tableVersion.setVersion(0);
-            tableVersionMapper.insert(tableVersion);
-        }
-        return ServerResponse.createServerResponseBySuccess(ResponseCode.IS_LOGIN_SUCCESS.getCode(), convert(user), ResponseCode.IS_LOGIN_SUCCESS.getMsg(),userId);
+        int userId = user.getId();
+//        int user_tv_count=tableVersionMapper.selectByUserId(userId);
+//        if (user_tv_count==0){
+//            TableVersion tableVersion=new TableVersion();
+//            tableVersion.setTableName("notes");
+//            tableVersion.setUserId(userId);
+//            tableVersion.setVersion(0);
+//            tableVersionMapper.insert(tableVersion);
+//        }
+        return ServerResponse.createServerResponseBySuccess(ResponseCode.IS_LOGIN_SUCCESS.getCode(), convert(user), ResponseCode.IS_LOGIN_SUCCESS.getMsg(), userId);
     }
 
     private UserVO convert(User user) {
@@ -87,17 +87,17 @@ public class UserService implements IUserService {
         //1.判空
         //用户名不能为空
         if (StringUtils.isBlank(username)) {
-            return ServerResponse.createServerResponseByFail(ResponseCode.USERNAME_NOT_EMPTY.getCode(), ResponseCode.USERNAME_NOT_EMPTY.getMsg(),-1);
+            return ServerResponse.createServerResponseByFail(ResponseCode.USERNAME_NOT_EMPTY.getCode(), ResponseCode.USERNAME_NOT_EMPTY.getMsg(), -1);
         }
         //密码不能为空
         if (StringUtils.isBlank(password)) {
-            return ServerResponse.createServerResponseByFail(ResponseCode.PASSWORD_NOT_EMPTY.getCode(), ResponseCode.PASSWORD_NOT_EMPTY.getMsg(),-1);
+            return ServerResponse.createServerResponseByFail(ResponseCode.PASSWORD_NOT_EMPTY.getCode(), ResponseCode.PASSWORD_NOT_EMPTY.getMsg(), -1);
         }
 
         //2.判断用户名是否存在
         Integer count = userMapper.fingByUsername(username);
         if (count > 0) {
-            return ServerResponse.createServerResponseByFail(ResponseCode.USERNAME_EXITS.getCode(), ResponseCode.USERNAME_EXITS.getMsg(),-1);
+            return ServerResponse.createServerResponseByFail(ResponseCode.USERNAME_EXITS.getCode(), ResponseCode.USERNAME_EXITS.getMsg(), -1);
         }
         //3.执行注册
         //密码加密
@@ -106,17 +106,17 @@ public class UserService implements IUserService {
         Integer result = userMapper.insert(user);
         if (result == 0) {
             //注册失败
-            return ServerResponse.createServerResponseByFail(ResponseCode.SIGNUP_FAIL.getCode(), ResponseCode.SIGNUP_FAIL.getMsg(),-1);
+            return ServerResponse.createServerResponseByFail(ResponseCode.SIGNUP_FAIL.getCode(), ResponseCode.SIGNUP_FAIL.getMsg(), -1);
         }
         //注册成功
-        return ServerResponse.createServerResponseBySuccess(ResponseCode.IS_SIGNUP_SUCCESS.getCode(), convert(user), ResponseCode.IS_SIGNUP_SUCCESS.getMsg(),user.getId());
+        return ServerResponse.createServerResponseBySuccess();
     }
 
     @Override
-    public ServerResponse logoutLogin(HttpSession session,Integer userId) {
+    public ServerResponse logoutLogin(HttpSession session, Integer userId) {
         ServerResponse sr = null;
         session.removeAttribute(Const.CURRENT_USER);
-        sr = ServerResponse.createServerResponseBySuccess(ResponseCode.IS_LOGOUT_SUCCESS.getCode(), ResponseCode.IS_LOGOUT_SUCCESS.getMsg(),userId);
+        sr = ServerResponse.createServerResponseBySuccess(ResponseCode.IS_LOGOUT_SUCCESS.getCode(), ResponseCode.IS_LOGOUT_SUCCESS.getMsg(), userId);
         return sr;
     }
 

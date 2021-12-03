@@ -1,5 +1,4 @@
 package com.firstapp.firstappbackend.service.impl;
-
 import com.firstapp.firstappbackend.common.ResponseCode;
 import com.firstapp.firstappbackend.dao.ChangeLogMapper;
 import com.firstapp.firstappbackend.dao.NotesMapper;
@@ -10,6 +9,7 @@ import com.firstapp.firstappbackend.utils.DateUtil;
 import com.firstapp.firstappbackend.utils.ServerResponse;
 import com.firstapp.firstappbackend.vo.NotesVO;
 import com.firstapp.firstappbackend.vo.ResponseVO;
+import com.sun.scenario.effect.Merge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -136,7 +136,9 @@ public class NotesService implements INotesService {
     @Override
     public ServerResponse handleSyn(Integer userId, String lastSynTime, List<ResponseVO> list) {
         //从change表获取lastSyntime 后的所有更新
-        List<ChangeLog> changeLogs = changeLogMapper.selectByTime(DateUtil.stringToDate(lastSynTime));
+        List<ChangeLog> init__changeLogs = changeLogMapper.selectByTime(DateUtil.stringToDate(lastSynTime));
+        //合并更改，删除那些起初Add又delete的记录
+        ArrayList<ChangeLog> changeLogs=merge(init__changeLogs);
         System.out.println("handleSyn,满足要求的changeLog的个数: " + changeLogs.size());
         ArrayList<ResponseVO> reslist = new ArrayList<>();//合并冲突后返回给前端的内容
         ArrayList<ResponseVO> updateToserver = new ArrayList<>(); //在server端更新的内容
@@ -239,6 +241,36 @@ public class NotesService implements INotesService {
         reslist.addAll(updateInServer(updateToserver, userId));
         //返回前端
         return ServerResponse.createServerResponseBySuccess(reslist, userId);
+    }
+
+    public  ArrayList<ChangeLog> merge(List<ChangeLog> list){
+
+        ArrayList<ChangeLog> res=new ArrayList<>();
+        HashMap <Integer,ChangeLog> add_map=new HashMap<>();
+        HashMap <Integer,ChangeLog> update_map=new HashMap<>();
+        for (ChangeLog changeLog : list){
+            if (changeLog.getOperation().equals("add")){
+              add_map.put(changeLog.getNoteId(),changeLog);
+            }else if (changeLog.getOperation().equals("update")){
+                add_map.put(changeLog.getNoteId(),changeLog);
+            }else {
+                //对于删除操作
+                if (add_map.containsKey(changeLog.getNoteId())){
+                    add_map.remove(changeLog.getNoteId());
+                }
+                if (update_map.containsKey(changeLog.getNoteId())){
+                    add_map.remove(changeLog.getNoteId());
+                }
+                res.add(changeLog);
+            }
+        }
+        for (ChangeLog changeLog: add_map.values()){
+            res.add(changeLog);
+        }
+        for (ChangeLog changeLog:update_map.values()){
+            res.add(changeLog);
+        }
+        return  res;
     }
 
     public ArrayList<ResponseVO> updateInServer(ArrayList<ResponseVO> list, Integer user_id) {

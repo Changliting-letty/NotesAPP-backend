@@ -26,5 +26,5 @@ public interface INotesService {
 
     public ServerResponse getNotesList(Integer userId);
 
-    public  ServerResponse handleSyn(Integer userId, String lastSynTime, List<ResponseVO> list);
+    public ServerResponse handleSyn(Integer userId, String lastSynTime, List<ResponseVO> list);
 }

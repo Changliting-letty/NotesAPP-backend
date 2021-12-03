@@ -43,7 +43,7 @@ public class PortalLoginCheckInterceptor implements HandlerInterceptor {
             response.reset();
             response.addHeader("Content-Type", "application/json;charset=utf-8");
             PrintWriter printWriter = response.getWriter();
-            ServerResponse serverResponse = ServerResponse.createServerResponseByFail(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getMsg(),-1);
+            ServerResponse serverResponse = ServerResponse.createServerResponseByFail(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getMsg(), -1);
             ObjectMapper objectMapper = new ObjectMapper();
             String info = objectMapper.writeValueAsString(serverResponse);
             printWriter.write(info);

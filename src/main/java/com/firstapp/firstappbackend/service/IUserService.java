@@ -15,6 +15,6 @@ public interface IUserService {
 
     public ServerResponse signupLogic(User user);
 
-    public ServerResponse logoutLogin(HttpSession session,Integer userId);
+    public ServerResponse logoutLogin(HttpSession session, Integer userId);
 
 }

@@ -39,8 +39,9 @@
 <!--                enableSelectByExample="false" enableUpdateByExample="false"/>-->
 <!--        <table  tableName="change_log" domainObjectName="ChangeLog" enableCountByExample="false" enableDeleteByExample="false"-->
 <!--                enableSelectByExample="false" enableUpdateByExample="false"/>-->
-        <table  tableName="table_version" domainObjectName="TableVersion" enableCountByExample="false" enableDeleteByExample="false"
+<!--        <table  tableName="table_version" domainObjectName="TableVersion" enableCountByExample="false" enableDeleteByExample="false"-->
+<!--                enableSelectByExample="false" enableUpdateByExample="false"/>-->
+        <table  tableName="sys_token" domainObjectName="SysToken" enableCountByExample="false" enableDeleteByExample="false"
                 enableSelectByExample="false" enableUpdateByExample="false"/>
-
     </context>
 </generatorConfiguration>
